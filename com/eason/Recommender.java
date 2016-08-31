@@ -10,11 +10,10 @@ public class Recommender {
 	
 	private MongoClient mongoClient;
 	private DataService ds;
-	private static volatile ConcurrentLinkedQueue<String> appList;
+	private static volatile ConcurrentLinkedQueue<String> appList = 
+			new ConcurrentLinkedQueue<String>();
 	
 	public Recommender(){
-		
-		this.appList = new ConcurrentLinkedQueue<String>(); 
 		
 		this.mongoClient = new MongoClient("localhost", 27017); //default host name and port number
 		
@@ -29,7 +28,9 @@ public class Recommender {
 		appList.addAll(app_info.keySet());
 		
 		for(int idx=0; idx<numberOfThreads; idx++){
-			
+			Calculator work = new Calculator(appList, user_download_history, ds);
+			Thread th = new Thread(work);
+			th.start();
 		}
 		
 	}

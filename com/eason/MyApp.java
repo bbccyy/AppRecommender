@@ -1,17 +1,30 @@
 package com.eason;
 
+import org.bson.Document;
+
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public class MyApp {
 
 	public static void main(String[] args) {
 		
-		MongoClient mongoClient = new MongoClient("localhost", 27017);
+		MongoClient clt = new MongoClient("localhost", 27017);	
+//		DataService ds = new DataService(clt);
 		
-		DataService ds = new DataService(mongoClient);
+		MongoDatabase db = clt.getDatabase("appstore");
+		MongoCollection<Document> app_info = db.getCollection("app_info");
 		
-		System.out.println(ds.retrieve_app_info("score","5").size());
-		System.out.println(ds.retrieve_user_download_history().size());
+		System.out.println();
+//		System.out.println(ds.retrieve_user_download_history().size());
+		
+		//Recommender rd = new Recommender();
+		
+		//rd.start(3);
+		
+		
+		
 
 	}
 
